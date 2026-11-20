@@ -41,8 +41,10 @@ Some schools do not let students create tokens. If you do not see the button, th
 **Claude Desktop** (no terminal needed)
 
 1. Download `canvas-study.mcpb` from the [latest release](https://github.com/gchallen/canvas-study-mcp/releases/latest).
-2. Open the file. Claude Desktop will offer to install it.
-3. Enter your school's Canvas address (such as `canvas.illinois.edu`) and paste your token.
+2. Open the file. Claude Desktop shows a Canvas Study page: click **Install**, then **Install** again to confirm.
+3. Enter your school's Canvas address (such as `canvas.illinois.edu`), paste your token, and click **Save**, then **Save** again to confirm.
+4. Turn on the switch at the bottom left of that page so it reads **Enabled**. It starts out disabled.
+5. Start a new chat. The first time Claude uses a Canvas Study tool, it asks your permission.
 
 **Claude Code**
 
