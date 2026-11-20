@@ -3,3 +3,5 @@ dist/
 build/
 *.mcpb
 .env
+.env.local
+scripts/vm/shots/
