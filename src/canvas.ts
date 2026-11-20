@@ -53,7 +53,7 @@ export class CanvasClient {
         headers: { Authorization: `Bearer ${this.token}`, Accept: "application/json" },
       });
     } catch (error) {
-      throw new CanvasError(`Could not reach Canvas at ${this.origin}: ${(error as Error).message}`);
+      throw new CanvasError(describeNetworkError(this.origin, error));
     }
     if (!response.ok) throw new CanvasError(describeStatus(response.status), response.status);
     return response;
@@ -85,6 +85,22 @@ export function nextLink(header: string | null): string | undefined {
     if (match) return match[1];
   }
   return undefined;
+}
+
+/** fetch reports every network failure as "fetch failed"; the useful detail is in the cause. */
+function describeNetworkError(origin: string, error: unknown): string {
+  const cause = (error as { cause?: { code?: string; message?: string } }).cause;
+  const code = cause?.code ?? "";
+  const detail = code || cause?.message || (error as Error).message;
+  let hint = "Check your internet connection and try again.";
+  if (code === "ENOTFOUND" || code === "EAI_AGAIN") {
+    hint = "That address was not found. Check the Canvas URL in this server's settings for typos.";
+  } else if (code === "ECONNREFUSED") {
+    hint = "Nothing is answering at that address. Check the Canvas URL in this server's settings.";
+  } else if (/CERT|SELF_SIGNED|ISSUER|VERIFY/.test(code)) {
+    hint = "The site's security certificate was not trusted.";
+  }
+  return `Could not reach Canvas at ${origin} (${detail}). ${hint}`;
 }
 
 function describeStatus(status: number): string {
