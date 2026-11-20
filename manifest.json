@@ -1,0 +1,44 @@
+{
+  "manifest_version": "0.3",
+  "name": "canvas-study",
+  "display_name": "Canvas Study",
+  "version": "2026.11.0",
+  "description": "Study from your own Canvas courses with spaced review, retrieval practice, and deadline planning. Read-only: it cannot submit or change anything in Canvas.",
+  "author": {
+    "name": "Geoffrey Challen"
+  },
+  "license": "MIT",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "CANVAS_BASE_URL": "${user_config.canvas_url}",
+        "CANVAS_API_TOKEN": "${user_config.canvas_token}"
+      }
+    }
+  },
+  "user_config": {
+    "canvas_url": {
+      "type": "string",
+      "title": "Canvas URL",
+      "description": "Your school's Canvas address, such as canvas.illinois.edu",
+      "required": true
+    },
+    "canvas_token": {
+      "type": "string",
+      "title": "Canvas Access Token",
+      "description": "In Canvas, open Account > Settings, choose New Access Token, and paste the token here. It stays on this computer.",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  }
+}
